@@ -7,29 +7,29 @@ mod module_windows;
 mod module_linux;
 mod tests;
 
-use module_windows::annoy_windows;
-use module_linux::annoy_linux;
-use std::env::consts;        // expose env::consts::OS
+use module_windows::annoy_windows;  // use functions in module_windows.rs
+use module_linux::annoy_linux;      // use functions in module_linux.rs
+use std::env::consts;               // expose env::consts::OS
 
 fn supported_os() -> [String; 2] {
-    // all OSes supported by std::env::consts::OS are: android, dragonfly, freebsd, ios, linux, macos, netbsd, openbsd, solaris, windows
-    // this program currently supports: ("windows", "linux")
+    // all OSes supported by std::env::consts::OS are: 
+    // android, dragonfly, freebsd, ios, linux, macos, netbsd, openbsd, solaris, windows
+    // this program currently supports: "windows" | "linux"
 
-    let mut info_array: [String; 2] = [
-        String::from(consts::OS), // OS
-        String::from("no")        // whether that OS is supported
+    let os = String::from(consts::OS);
+    let is_supported = match os.as_str() {
+        "windows" | "linux" => true,
+        _ => false,
+    };
+
+    let info_array: [String; 2] = [
+        os, 
+        if is_supported { String::from("yes") } else { String::from("no") },
     ];
-    
-    let supported_os = ["windows", "linux"];
 
-    for element in supported_os {
-        if String::from(element) == info_array[0] {
-            info_array[1] = String::from("yes");
-            break;
-        }
-    }
-    return info_array;
+    info_array
 }
+
 
 fn main() {
 
@@ -49,9 +49,9 @@ fn main() {
 
     //
 
-    if let "windows" = info[0].as_str() as &str {
+    if let "windows" = info[0].as_str() {
         annoy_windows(0);
     } else if let "linux" = info[0].as_str() {
-        annoy_linux();
+        annoy_linux(0);
     }
 }

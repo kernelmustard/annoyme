@@ -1,5 +1,8 @@
 #[cfg(test)]
-use super::annoy_windows;
+use super::{
+    annoy_windows,
+    annoy_linux,
+};
 
 #[test]
 fn test_annoy_windows() {
@@ -25,4 +28,16 @@ fn test_annoy_windows() {
     assert!(cursor_called, "annoy_windows_cursor was not called");
     assert!(ok_called, "annoy_windows_ok was not called");
     assert!(camera_called, "annoy_windows_camera was not called");
+}
+
+#[test]
+fn test_annoy_linux() {
+    let num_loops = 100;
+    annoy_linux(num_loops);
+
+    // Since the functions are called randomly, we can't guarantee that each function will be called
+    // every time. But we can at least check that each function was called at least once.
+    
+
+    // copy logic above when you write a function for linux
 }
